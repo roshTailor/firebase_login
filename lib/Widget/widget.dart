@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget newButton({required onPressed, required String title}) {
-  return Padding(
-    padding: const EdgeInsets.all(10),
-    child: CupertinoButton.filled(
-      onPressed: onPressed,
-      child: Text(title),
-    ),
+  return CupertinoButton(
+    onPressed: onPressed,
+    color: Colors.orangeAccent,
+    child: Text(title),
+
   );
 }
 
