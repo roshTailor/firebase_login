@@ -13,6 +13,7 @@ class AuthState extends StatefulWidget {
 }
 
 class _AuthStateState extends State<AuthState> {
+  User? user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +22,7 @@ class _AuthStateState extends State<AuthState> {
         builder: (context,snapShot){
           print(snapShot.data);
           if(snapShot.data==null){
-            return const ProfilePage();
+            return ProfilePage(user: user!,);
           }
           else{
             return const LoginPage();

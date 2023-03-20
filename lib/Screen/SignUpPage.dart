@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_login/Helper/FirebaseHelper.dart';
 import 'package:firebase_login/Utils/Global.dart';
 import 'package:firebase_login/Widget/widget.dart';
@@ -14,7 +15,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  FirebaseHelper instance = FirebaseHelper.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +48,44 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 100,
                 ),
                 TextFormField(
-                  controller: AppController.email,
+                  controller: AppController.userName,
                   decoration: InputDecoration(
-                    labelText: 'Email ID',
-                    floatingLabelStyle: const TextStyle(color: Colors.deepOrange),
+                    labelText: 'User name',
+                    floatingLabelStyle:
+                        const TextStyle(color: Colors.deepOrange),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.deepOrange,width: 1.5)
+                        borderSide:
+                            BorderSide(color: Colors.deepOrange, width: 1.5)),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
                     ),
+                  ),
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Please enter User name";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: AppController.email,
+                  decoration: InputDecoration(
+                    labelText: 'Email ID',
+                    floatingLabelStyle:
+                        const TextStyle(color: Colors.deepOrange),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.deepOrange, width: 1.5)),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 20,
@@ -83,10 +111,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: AppController.password,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    floatingLabelStyle: const TextStyle(color: Colors.deepOrange),
+                    floatingLabelStyle:
+                        const TextStyle(color: Colors.deepOrange),
                     focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.deepOrange,width: 1.5)
-                    ),
+                        borderSide:
+                            BorderSide(color: Colors.deepOrange, width: 1.5)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -129,10 +158,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: AppController.confirmPassword,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
-                    floatingLabelStyle: const TextStyle(color: Colors.deepOrange),
+                    floatingLabelStyle:
+                        const TextStyle(color: Colors.deepOrange),
                     focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.deepOrange,width: 1.5)
-                    ),
+                        borderSide:
+                            BorderSide(color: Colors.deepOrange, width: 1.5)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -163,10 +193,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 20,
                 ),
                 newButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (signUpKey.currentState!.validate()) {
-                      instance.authRegister(context, setState);
+                       await FirebaseHelper.authRegister(
+                        context,
+                        setState,
+                        AppController.userName.text,
+                        AppController.email.text,
+                        AppController.password.text,
+                      );
                     }
+                    AppController.email.clear();
+                    AppController.password.clear();
+                    AppController.userName.clear();
                   },
                   title: "Sign Up",
                 ),

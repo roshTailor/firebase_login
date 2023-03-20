@@ -22,8 +22,6 @@ Future<void> main() async {
       ),
       routes: {
         '/': (context) => const Splash(),
-        'State':(context) => const AuthState(),
-        'ProfilePage':(context) => const ProfilePage(),
         'LoginPage': (context) => const LoginPage(),
         'signUp': (context) => const SignUpPage(),
       },
